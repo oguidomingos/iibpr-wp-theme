@@ -1,0 +1,25 @@
+/*
+Theme Name: IIBPR Clean Tailwind
+Theme URI: https://institutoibpr.com.br
+Author: Claw (base Underscores + Tailwind)
+Author URI: https://openclaw.ai
+Description: Starter theme limpo Underscores (_s) com Tailwind CSS para replicar IIBPR landing. Hero + Objetivos + Programa + CTA Seminário.
+Version: 1.0.0
+Tested up to: 6.4
+Requires at least: 5.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: iibpr-theme
+Tags: tailwind, clean, landing, seminars, psicomotricidade
+
+Tailwind CSS v3 via CDN (produção: instale via npm + PostCSS).
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom overrides */
+body { font-family: 'Inter', system-ui, sans-serif; }
+.hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.cta { background: linear-gradient(45deg, #FF6B6B, #4ECDC4); }
