@@ -205,7 +205,71 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     4. DEPOIMENTOS (Carrossel automático)
+	     4. EVENTOS EM DESTAQUE
+	     ===================================================== -->
+	<section id="eventos" class="py-20 px-4 md:px-8 bg-indigo-50">
+		<div class="max-w-6xl mx-auto">
+
+			<div class="text-center mb-14">
+				<p class="section-label">Agenda</p>
+				<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2">Próximos Eventos</h2>
+				<p class="text-gray-500 mt-3 max-w-xl mx-auto">Seminários, workshops e formações presenciais e online.</p>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-8">
+				<?php for ( $i = 1; $i <= 3; $i++ ) :
+					$ev_title = iibpr_get( "iibpr_event_{$i}_title" );
+					$ev_date  = iibpr_get( "iibpr_event_{$i}_date" );
+					$ev_type  = iibpr_get( "iibpr_event_{$i}_type" );
+					$ev_desc  = iibpr_get( "iibpr_event_{$i}_desc" );
+					$ev_url   = iibpr_get( "iibpr_event_{$i}_url" );
+					if ( ! $ev_title ) continue;
+				?>
+				<article class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-indigo-100">
+					<div class="h-2 bg-gradient-to-r from-purple-600 to-teal-500"></div>
+					<div class="p-6">
+						<?php if ( $ev_type ) : ?>
+						<span class="inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+							<?php echo esc_html( $ev_type ); ?>
+						</span>
+						<?php endif; ?>
+						<h3 class="text-lg font-bold text-gray-900 mb-2"><?php echo esc_html( $ev_title ); ?></h3>
+						<?php if ( $ev_date ) : ?>
+						<p class="text-sm text-purple-600 font-medium mb-3 flex items-center gap-1">
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+							</svg>
+							<?php echo esc_html( $ev_date ); ?>
+						</p>
+						<?php endif; ?>
+						<?php if ( $ev_desc ) : ?>
+						<p class="text-gray-600 text-sm leading-relaxed mb-4"><?php echo wp_kses_post( $ev_desc ); ?></p>
+						<?php endif; ?>
+						<?php if ( $ev_url ) : ?>
+						<a href="<?php echo esc_url( $ev_url ); ?>"
+						   class="text-purple-700 font-semibold text-sm hover:text-purple-900 transition-colors inline-flex items-center gap-1">
+							Saiba mais
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+							</svg>
+						</a>
+						<?php endif; ?>
+					</div>
+				</article>
+				<?php endfor; ?>
+			</div>
+
+			<div class="text-center mt-12">
+				<a href="<?php echo esc_url( site_url( '/eventos' ) ); ?>" class="btn-secondary">
+					Ver Todos os Eventos
+				</a>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- =====================================================
+	     5. DEPOIMENTOS (Carrossel automático)
 	     ===================================================== -->
 	<section id="depoimentos" class="py-20 px-4 md:px-8 bg-gray-50">
 		<div class="max-w-4xl mx-auto">
@@ -258,7 +322,7 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     5. CTA FINAL / INSCRIÇÃO
+	     6. CTA FINAL / INSCRIÇÃO
 	     ===================================================== -->
 	<section id="inscricao" class="py-24 px-4 md:px-8 bg-gradient-to-br from-purple-700 via-indigo-700 to-teal-600 text-white text-center">
 		<div class="max-w-3xl mx-auto">

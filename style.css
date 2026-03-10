@@ -3,16 +3,14 @@ Theme Name: IIBPR Psicomotricidade
 Theme URI: https://institutoibpr.com.br
 Author: OpenClaw / IIBPR
 Author URI: https://openclaw.ai
-Description: Tema oficial do Instituto IIBPR de Psicomotricidade Relacional — com suporte a Tailwind CSS e campos editáveis via Customizer do WordPress (textos, imagens, preços, carrosséis).
-Version: 2.0.0
+Description: Tema oficial do Instituto IIBPR de Psicomotricidade Relacional — Tailwind CSS, Customizer WP, páginas Cursos/Eventos/Blog/Aluno, navegação sticky, carrosséis.
+Version: 2.1.0
 Tested up to: 6.5
 Requires at least: 5.8
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: iibpr-theme
-Tags: tailwind, customizer, landing, psicomotricidade, courses
-
-Usa Tailwind CSS via CDN para prototipagem (produção: compile via npm + PostCSS).
+Tags: tailwind, customizer, landing, psicomotricidade, courses, eventos, blog, aluno
 */
 
 /* ===========================
@@ -186,27 +184,51 @@ html { scroll-behavior: smooth; }
 #primary-menu li a:hover { color: var(--iibpr-purple); }
 
 /* ---------- Mobile Nav ---------- */
-.mobile-menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-}
 @media (max-width: 767px) {
-  .mobile-menu-toggle { display: block; }
-  #site-navigation { display: none; }
-  #site-navigation.open { display: block; }
+  #site-navigation {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    padding: 1.5rem 1.5rem;
+    z-index: 40;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  #site-navigation.open {
+    display: block;
+  }
   #primary-menu {
     flex-direction: column;
-    padding: 1rem 0;
     gap: 0;
+    margin-bottom: 1rem;
   }
   #primary-menu li a {
     display: block;
-    padding: 0.5rem 0;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 1rem;
+  }
+  .nav-aluno-btn,
+  .btn-primary.ml-2 {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    margin: 0.5rem 0 0;
   }
 }
+
+/* Toggle icon visibility */
+.mobile-menu-toggle[aria-expanded="true"] .menu-icon-open  { display: none; }
+.mobile-menu-toggle[aria-expanded="true"] .menu-icon-close { display: block; }
+.mobile-menu-toggle[aria-expanded="false"] .menu-icon-open  { display: block; }
+.mobile-menu-toggle[aria-expanded="false"] .menu-icon-close { display: none; }
+
+/* Relative positioning for mobile dropdown */
+#masthead { position: relative; }
 
 /* ---------- Misc ---------- */
 .section-label {

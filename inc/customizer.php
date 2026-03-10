@@ -152,6 +152,55 @@ function iibpr_customize_register( $wp_customize ) {
     }
 
     /* =====================================================
+       PAINEL: EVENTOS
+       ===================================================== */
+    $wp_customize->add_panel( 'iibpr_events_panel', array(
+        'title'    => __( 'Eventos em Destaque', 'iibpr-theme' ),
+        'priority' => 55,
+    ) );
+
+    $event_defaults = array(
+        1 => array(
+            'title' => 'Seminário Teórico e Didático I',
+            'date'  => '22 de Março, 2026 — Online (Zoom)',
+            'type'  => 'Seminário Online',
+            'desc'  => 'Certificado 20h + e-book + textos científicos. Transmissão ao vivo via Zoom com gravação disponível.',
+            'url'   => '#inscricao',
+        ),
+        2 => array(
+            'title' => 'Formação em Psicomotricidade Relacional',
+            'date'  => 'Abril–Dezembro 2026 — Presencial + Online',
+            'type'  => 'Pós-Graduação 420h',
+            'desc'  => 'Formação completa em parceria com o IESB. Módulos teóricos + práticos + supervisão.',
+            'url'   => '#inscricao',
+        ),
+        3 => array(
+            'title' => 'Curso de Grafomotricidade com Dra. Ana Rita Matias',
+            'date'  => 'Maio 2026 — Online',
+            'type'  => 'Curso Especialista',
+            'desc'  => 'Análise da escrita, diagnóstico e intervenção grafomotora para professores e psicólogos.',
+            'url'   => '#inscricao',
+        ),
+    );
+
+    for ( $i = 1; $i <= 3; $i++ ) {
+        $d = $event_defaults[$i];
+        $wp_customize->add_section( "iibpr_event_{$i}", array(
+            'title' => "Evento {$i}", 'panel' => 'iibpr_events_panel',
+        ) );
+        foreach ( array(
+            "iibpr_event_{$i}_title" => array( 'label' => 'Título do Evento',  'default' => $d['title'], 'type' => 'text' ),
+            "iibpr_event_{$i}_date"  => array( 'label' => 'Data / Modalidade', 'default' => $d['date'],  'type' => 'text' ),
+            "iibpr_event_{$i}_type"  => array( 'label' => 'Tipo (badge)',       'default' => $d['type'],  'type' => 'text' ),
+            "iibpr_event_{$i}_desc"  => array( 'label' => 'Descrição',         'default' => $d['desc'],  'type' => 'textarea' ),
+            "iibpr_event_{$i}_url"   => array( 'label' => 'URL "Saiba mais"',  'default' => $d['url'],   'type' => 'text' ),
+        ) as $sid => $sargs ) {
+            $wp_customize->add_setting( $sid, array( 'default' => $sargs['default'], 'sanitize_callback' => 'wp_kses_post' ) );
+            $wp_customize->add_control( $sid, array( 'label' => $sargs['label'], 'section' => "iibpr_event_{$i}", 'type' => $sargs['type'] ) );
+        }
+    }
+
+    /* =====================================================
        PAINEL: DEPOIMENTOS (Carrossel)
        ===================================================== */
     $wp_customize->add_panel( 'iibpr_testimonials_panel', array(
@@ -250,25 +299,7 @@ function iibpr_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'iibpr_customize_register' );
 
 
-/**
- * Helper para pegar setting do customizer com fallback para default.
- */
-function iibpr_get( $setting_id ) {
-    $defaults = array(
-        'iibpr_hero_tagline'    => 'Onde há movimento, há vida em relação!',
-        'iibpr_hero_title'      => 'Inscrições Abertas para Formação em Psicomotricidade',
-        'iibpr_hero_subtitle'   => 'Especialização de 420h em parceria com o IESB.',
-        'iibpr_hero_cta_label'  => 'Quero Garantir Minha Vaga',
-        'iibpr_hero_cta_url'    => '#inscricao',
-        'iibpr_hero_secondary_label' => 'Conheça os Cursos',
-        'iibpr_hero_secondary_url'   => '#cursos',
-        'iibpr_color_primary'   => '#5B21B6',
-        'iibpr_color_secondary' => '#0D9488',
-    );
-    $val = get_theme_mod( $setting_id );
-    if ( $val !== '' && $val !== false ) return $val;
-    return isset( $defaults[$setting_id] ) ? $defaults[$setting_id] : '';
-}
+// Note: iibpr_get() is defined in functions.php with $key + $default params.
 
 
 /**
