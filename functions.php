@@ -40,7 +40,7 @@ add_action( 'after_setup_theme', 'iibpr_theme_setup' );
    -------------------------------------------------- */
 function iibpr_scripts() {
     // Tailwind via CDN (para produção, compile com npm + PostCSS)
-    wp_enqueue_script( 'tailwind-cdn', 'https://cdn.tailwindcss.com', array(), '3.4.1', false );
+    wp_enqueue_script( 'tailwind-cdn', '
 
     // Fontes Google — Inter
     wp_enqueue_style( 'iibpr-fonts',
