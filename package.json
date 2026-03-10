@@ -1,0 +1,26 @@
+{
+  "name": "iibpr-wp-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oguidomingos/iibpr-wp-theme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oguidomingos/iibpr-wp-theme/issues"
+  },
+  "homepage": "https://github.com/oguidomingos/iibpr-wp-theme#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "esbuild": "^0.27.3",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1"
+  }
+}
