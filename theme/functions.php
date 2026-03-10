@@ -94,58 +94,14 @@ function iibpr_main_scripts() {
 		array(), null
 	);
 
-	// Inline JS for carousel + mobile menu
-	wp_add_inline_script( 'iibpr_main-script', iibpr_inline_js(), 'after' );
+	// JS logic is in javascript/script.js → compiled to theme/js/script.min.js via esbuild.
+	// Run: npm run build (or npm run start for watch mode).
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'iibpr_main_scripts' );
-
-/**
- * JS inline para o carrossel e menu mobile.
- */
-function iibpr_inline_js() {
-	return "
-	document.addEventListener('DOMContentLoaded', function() {
-		var toggle = document.querySelector('.mobile-menu-toggle');
-		var nav    = document.getElementById('site-navigation');
-		if (toggle && nav) {
-			toggle.addEventListener('click', function() {
-				nav.classList.toggle('open');
-			});
-		}
-
-		document.querySelectorAll('.carousel-wrapper').forEach(function(wrapper) {
-			var track  = wrapper.querySelector('.carousel-track');
-			var slides = wrapper.querySelectorAll('.carousel-slide');
-			var prev   = wrapper.querySelector('.carousel-btn-prev');
-			var next   = wrapper.querySelector('.carousel-btn-next');
-			var dots   = wrapper.querySelectorAll('.carousel-dot');
-			var current = 0;
-			var total   = slides.length;
-			if (!track || total === 0) return;
-
-			function goTo(idx) {
-				current = (idx + total) % total;
-				track.style.transform = 'translateX(-' + (current * 100) + '%)';
-				dots.forEach(function(d, i) {
-					d.classList.toggle('bg-purple-600', i === current);
-					d.classList.toggle('bg-gray-300',   i !== current);
-				});
-			}
-
-			if (prev) prev.addEventListener('click', function() { goTo(current - 1); });
-			if (next) next.addEventListener('click', function() { goTo(current + 1); });
-			dots.forEach(function(d, i) { d.addEventListener('click', function() { goTo(i); }); });
-
-			var interval = wrapper.dataset.autoplay ? parseInt(wrapper.dataset.autoplay) : 0;
-			if (interval > 0) { setInterval(function() { goTo(current + 1); }, interval); }
-		});
-	});
-	";
-}
 
 /* --------------------------------------------------
    4. BLOCK EDITOR

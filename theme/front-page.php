@@ -33,6 +33,22 @@ get_header(); ?>
 				<?php echo wp_kses_post( iibpr_get( 'iibpr_hero_subtitle', 'Especialização de 420h em parceria com o IESB.' ) ); ?>
 			</p>
 
+			<!-- Search bar -->
+			<form role="search" method="get" action="<?php echo esc_url( site_url( '/cursos' ) ); ?>"
+			      class="flex items-center max-w-xl mx-auto mb-10 bg-white/15 backdrop-blur rounded-full overflow-hidden border border-white/30 hover:border-white/60 transition-colors">
+				<label for="hero-search" class="sr-only"><?php esc_html_e( 'Buscar cursos', 'iibpr_main' ); ?></label>
+				<input id="hero-search" type="search" name="s"
+				       placeholder="<?php esc_attr_e( 'Buscar cursos, eventos...', 'iibpr_main' ); ?>"
+				       class="flex-1 bg-transparent text-white placeholder-white/70 px-6 py-3 outline-none text-base"
+				       value="<?php echo esc_attr( get_search_query() ); ?>">
+				<button type="submit" aria-label="<?php esc_attr_e( 'Buscar', 'iibpr_main' ); ?>"
+				        class="px-5 py-3 text-white hover:text-purple-200 transition-colors">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+					</svg>
+				</button>
+			</form>
+
 			<!-- CTAs -->
 			<div class="flex flex-col sm:flex-row gap-4 justify-center">
 				<?php
@@ -54,13 +70,39 @@ get_header(); ?>
 			</div>
 
 			<!-- Scroll arrow -->
-			<div class="mt-16 animate-bounce">
-				<a href="#cursos" class="text-white/50 hover:text-white transition-colors" aria-label="Rolar para baixo">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<div class="mt-14 animate-bounce">
+				<a href="#stats" class="text-white/50 hover:text-white transition-colors" aria-label="Rolar para baixo">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
 					</svg>
 				</a>
 			</div>
+		</div>
+	</section>
+
+	<!-- =====================================================
+	     1b. STATS STRIP
+	     ===================================================== -->
+	<section id="stats" class="bg-white border-b border-gray-100 py-10 px-4 md:px-8">
+		<div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+			<?php
+			$stats = array(
+				array( 'target' => 20,   'prefix' => '+', 'suffix' => '',   'label' => 'Anos de experiência' ),
+				array( 'target' => 1500, 'prefix' => '',  'suffix' => '+',  'label' => 'Alunos formados' ),
+				array( 'target' => 5,    'prefix' => '',  'suffix' => '',   'label' => 'Países atendidos' ),
+				array( 'target' => 420,  'prefix' => '',  'suffix' => 'h',  'label' => 'Pós-graduação' ),
+			);
+			foreach ( $stats as $stat ) : ?>
+			<div>
+				<div class="text-3xl md:text-4xl font-extrabold text-purple-700 counter-animate"
+				     data-target="<?php echo esc_attr( $stat['target'] ); ?>"
+				     data-prefix="<?php echo esc_attr( $stat['prefix'] ); ?>"
+				     data-suffix="<?php echo esc_attr( $stat['suffix'] ); ?>">
+					<?php echo esc_html( $stat['prefix'] . $stat['target'] . $stat['suffix'] ); ?>
+				</div>
+				<div class="text-gray-500 text-sm mt-1"><?php echo esc_html( $stat['label'] ); ?></div>
+			</div>
+			<?php endforeach; ?>
 		</div>
 	</section>
 
@@ -205,7 +247,71 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     4. DEPOIMENTOS (Carrossel automático)
+	     4. EVENTOS EM DESTAQUE
+	     ===================================================== -->
+	<section id="eventos" class="py-20 px-4 md:px-8 bg-indigo-50">
+		<div class="max-w-6xl mx-auto">
+
+			<div class="text-center mb-14">
+				<p class="section-label">Agenda</p>
+				<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2">Próximos Eventos</h2>
+				<p class="text-gray-500 mt-3 max-w-xl mx-auto">Seminários, workshops e formações presenciais e online.</p>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-8">
+				<?php for ( $i = 1; $i <= 3; $i++ ) :
+					$ev_title = iibpr_get( "iibpr_event_{$i}_title" );
+					$ev_date  = iibpr_get( "iibpr_event_{$i}_date" );
+					$ev_type  = iibpr_get( "iibpr_event_{$i}_type" );
+					$ev_desc  = iibpr_get( "iibpr_event_{$i}_desc" );
+					$ev_url   = iibpr_get( "iibpr_event_{$i}_url" );
+					if ( ! $ev_title ) continue;
+				?>
+				<article class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-indigo-100">
+					<div class="h-2 bg-gradient-to-r from-purple-600 to-teal-500"></div>
+					<div class="p-6">
+						<?php if ( $ev_type ) : ?>
+						<span class="inline-block bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+							<?php echo esc_html( $ev_type ); ?>
+						</span>
+						<?php endif; ?>
+						<h3 class="text-lg font-bold text-gray-900 mb-2"><?php echo esc_html( $ev_title ); ?></h3>
+						<?php if ( $ev_date ) : ?>
+						<p class="text-sm text-purple-600 font-medium mb-3 flex items-center gap-1">
+							<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+							</svg>
+							<?php echo esc_html( $ev_date ); ?>
+						</p>
+						<?php endif; ?>
+						<?php if ( $ev_desc ) : ?>
+						<p class="text-gray-600 text-sm leading-relaxed mb-4"><?php echo wp_kses_post( $ev_desc ); ?></p>
+						<?php endif; ?>
+						<?php if ( $ev_url ) : ?>
+						<a href="<?php echo esc_url( $ev_url ); ?>"
+						   class="text-purple-700 font-semibold text-sm hover:text-purple-900 transition-colors inline-flex items-center gap-1">
+							Saiba mais
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+							</svg>
+						</a>
+						<?php endif; ?>
+					</div>
+				</article>
+				<?php endfor; ?>
+			</div>
+
+			<div class="text-center mt-12">
+				<a href="<?php echo esc_url( site_url( '/eventos' ) ); ?>" class="btn-secondary">
+					Ver Todos os Eventos
+				</a>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- =====================================================
+	     5. DEPOIMENTOS (Carrossel automático)
 	     ===================================================== -->
 	<section id="depoimentos" class="py-20 px-4 md:px-8 bg-gray-50">
 		<div class="max-w-4xl mx-auto">
@@ -258,7 +364,7 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     5. CTA FINAL / INSCRIÇÃO
+	     6. CTA FINAL / INSCRIÇÃO
 	     ===================================================== -->
 	<section id="inscricao" class="py-24 px-4 md:px-8 bg-gradient-to-br from-purple-700 via-indigo-700 to-teal-600 text-white text-center">
 		<div class="max-w-3xl mx-auto">
