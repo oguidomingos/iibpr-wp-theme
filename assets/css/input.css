@@ -1,0 +1,2 @@
+@tailwind base; @tailwind components; @tailwind utilities; @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Custom overrides */ :root { --iibpr-purple: #5B21B6; --iibpr-teal: #0D9488; --iibpr-gold: #F59E0B; --iibpr-dark: #1E1B4B; } body { font-family: 'Inter', sans-serif; }
