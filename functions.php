@@ -39,8 +39,8 @@ add_action( 'after_setup_theme', 'iibpr_theme_setup' );
    2. ENQUEUE DE ESTILOS E SCRIPTS
    -------------------------------------------------- */
 function iibpr_scripts() {
-    // Tailwind via CDN (para produção, compile com npm + PostCSS)
-    wp_enqueue_script( 'tailwind-cdn', '
+    // Tailwind CSS compilado localmente
+    wp_enqueue_style( 'iibpr-tailwind', get_template_directory_uri() . '/assets/css/app.css', array(), '2.1.0' );
 
     // Fontes Google — Inter
     wp_enqueue_style( 'iibpr-fonts',
@@ -49,10 +49,10 @@ function iibpr_scripts() {
     );
 
     // Estilo principal do tema
-    wp_enqueue_style( 'iibpr-style', get_stylesheet_uri(), array(), '2.0.0' );
+    wp_enqueue_style( 'iibpr-style', get_stylesheet_uri(), array( 'iibpr-tailwind' ), '2.1.0' );
 
-    // Script do carrossel + mobile menu (inline para simplicidade)
-    wp_add_inline_script( 'tailwind-cdn', iibpr_inline_js(), 'after' );
+    // Script principal (carousel + mobile menu)
+    wp_enqueue_script( 'iibpr-app', get_template_directory_uri() . '/assets/js/app.js', array(), '2.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'iibpr_scripts' );
 
@@ -67,7 +67,15 @@ function iibpr_inline_js() {
         var nav    = document.getElementById('site-navigation');
         if (toggle && nav) {
             toggle.addEventListener('click', function() {
-                nav.classList.toggle('open');
+                var isOpen = nav.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+            // Close on outside click
+            document.addEventListener('click', function(e) {
+                if (!toggle.contains(e.target) && !nav.contains(e.target)) {
+                    nav.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
             });
         }
 

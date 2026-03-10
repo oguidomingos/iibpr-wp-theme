@@ -12,7 +12,7 @@
 <div id="page" class="site">
 
 	<!-- ========== HEADER / NAV ========== -->
-	<header id="masthead" class="site-header">
+	<header id="masthead" class="site-header" role="banner">
 		<div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
 
 			<!-- Logo / Branding -->
@@ -27,15 +27,20 @@
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"
 					   class="text-2xl font-extrabold gradient-text no-underline">IIBPR</a>
 				<?php endif; ?>
-				<span class="hidden md:block text-xs text-gray-500 max-w-xs leading-tight">
-					<?php echo esc_html( iibpr_get( 'iibpr_hero_tagline', 'Psicomotricidade Relacional' ) ); ?>
+				<span class="hidden lg:block text-xs text-gray-500 max-w-xs leading-tight">
+					Psicomotricidade Relacional
 				</span>
 			</div>
 
 			<!-- Mobile toggle -->
-			<button class="mobile-menu-toggle text-gray-600 hover:text-purple-700 focus:outline-none" aria-label="Menu">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<button class="mobile-menu-toggle md:hidden text-gray-600 hover:text-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded p-1"
+			        aria-label="<?php esc_attr_e( 'Abrir menu', 'iibpr-theme' ); ?>"
+			        aria-expanded="false" aria-controls="site-navigation">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 menu-icon-open" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+				</svg>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 menu-icon-close hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
 				</svg>
 			</button>
 
@@ -49,10 +54,16 @@
 					'fallback_cb'    => 'iibpr_fallback_menu',
 				) );
 				?>
-				<a href="https://wa.me/<?php echo esc_attr( preg_replace( '/\D/', '', iibpr_get( 'iibpr_footer_whatsapp_br', '5561991572149' ) ) ); ?>"
-				   target="_blank" rel="noopener"
-				   class="btn-primary text-sm py-2 px-5 ml-4">
-					Fale Conosco
+				<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'aluno' ) ) ?: site_url( '/aluno' ) ); ?>"
+				   class="nav-aluno-btn hidden md:inline-flex items-center gap-2 border border-purple-600 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold hover:bg-purple-50 transition-colors">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+					</svg>
+					Área do Aluno
+				</a>
+				<a href="<?php echo esc_url( iibpr_get( 'iibpr_hero_cta_url', '#inscricao' ) ); ?>"
+				   class="btn-primary text-sm py-2 px-5 ml-2 hidden md:inline-block">
+					Inscreva-se
 				</a>
 			</nav>
 
@@ -65,10 +76,10 @@
  */
 function iibpr_fallback_menu() {
     echo '<ul id="primary-menu">
-        <li><a href="' . esc_url( home_url( '/' ) ) . '">Home</a></li>
-        <li><a href="#cursos">Cursos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#depoimentos">Depoimentos</a></li>
-        <li><a href="#inscricao">Inscrição</a></li>
+        <li><a href="' . esc_url( home_url( '/' ) )       . '">Home</a></li>
+        <li><a href="' . esc_url( site_url( '/cursos' ) )  . '">Cursos</a></li>
+        <li><a href="' . esc_url( site_url( '/eventos' ) ) . '">Eventos</a></li>
+        <li><a href="' . esc_url( site_url( '/blog' ) )    . '">Blog</a></li>
+        <li><a href="' . esc_url( site_url( '/sobre' ) )   . '">Sobre</a></li>
     </ul>';
 }
