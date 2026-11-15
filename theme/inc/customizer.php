@@ -47,6 +47,68 @@ function iibpr_customize_register( $wp_customize ) {
     ) ) );
 
     /* =====================================================
+       PAINEL: PARA QUEM
+       ===================================================== */
+    $wp_customize->add_panel( 'iibpr_audience_panel', array(
+        'title'    => __( 'Para Quem', 'iibpr-theme' ),
+        'priority' => 35,
+    ) );
+
+    $wp_customize->add_section( 'iibpr_audience_intro', array(
+        'title' => __( 'Introdução da Seção', 'iibpr-theme' ),
+        'panel' => 'iibpr_audience_panel',
+    ) );
+
+    $audience_intro_fields = array(
+        'iibpr_audience_label'    => array( 'label' => 'Label da seção', 'default' => 'Para Quem' ),
+        'iibpr_audience_title'    => array( 'label' => 'Título da seção', 'default' => 'Para quem é o IIBPR?' ),
+        'iibpr_audience_subtitle' => array( 'label' => 'Subtítulo da seção', 'default' => 'Nossos cursos atendem profissionais e estudantes de diversas áreas.' ),
+    );
+    foreach ( $audience_intro_fields as $id => $args ) {
+        $wp_customize->add_setting( $id, array( 'default' => $args['default'], 'sanitize_callback' => 'wp_kses_post' ) );
+        $wp_customize->add_control( $id, array( 'label' => $args['label'], 'section' => 'iibpr_audience_intro', 'type' => 'text' ) );
+    }
+
+    $audience_card_defaults = array(
+        1 => array(
+            'title' => 'Educadores',
+            'text'  => 'Professores e pedagogos que desejam ampliar suas ferramentas de intervenção com o corpo e o movimento.',
+        ),
+        2 => array(
+            'title' => 'Profissionais de Saúde',
+            'text'  => 'Psicólogos, fisioterapeutas e terapeutas ocupacionais em busca de abordagens corporais e relacionais.',
+        ),
+        3 => array(
+            'title' => 'Estudantes',
+            'text'  => 'Graduandos em psicologia, educação e áreas da saúde que buscam formação complementar.',
+        ),
+        4 => array(
+            'title' => 'Pesquisadores',
+            'text'  => 'Acadêmicos interessados em pesquisa científica sobre corpo, movimento e relação.',
+        ),
+    );
+
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $card = $audience_card_defaults[ $i ];
+        $wp_customize->add_section( "iibpr_audience_card_{$i}", array(
+            'title' => "Card {$i}",
+            'panel' => 'iibpr_audience_panel',
+        ) );
+
+        $wp_customize->add_setting( "iibpr_audience_card_{$i}_title", array( 'default' => $card['title'], 'sanitize_callback' => 'sanitize_text_field' ) );
+        $wp_customize->add_control( "iibpr_audience_card_{$i}_title", array( 'label' => 'Título do card', 'section' => "iibpr_audience_card_{$i}", 'type' => 'text' ) );
+
+        $wp_customize->add_setting( "iibpr_audience_card_{$i}_text", array( 'default' => $card['text'], 'sanitize_callback' => 'wp_kses_post' ) );
+        $wp_customize->add_control( "iibpr_audience_card_{$i}_text", array( 'label' => 'Texto do card', 'section' => "iibpr_audience_card_{$i}", 'type' => 'textarea' ) );
+
+        $wp_customize->add_setting( "iibpr_audience_card_{$i}_image", array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "iibpr_audience_card_{$i}_image", array(
+            'label'   => 'Imagem do card',
+            'section' => "iibpr_audience_card_{$i}",
+        ) ) );
+    }
+
+    /* =====================================================
        PAINEL: SOBRE O INSTITUTO
        ===================================================== */
     $wp_customize->add_panel( 'iibpr_about_panel', array(
@@ -94,6 +156,21 @@ function iibpr_customize_register( $wp_customize ) {
         'title'    => __( 'Cursos em Destaque', 'iibpr-theme' ),
         'priority' => 50,
     ) );
+
+    $wp_customize->add_section( 'iibpr_courses_intro', array(
+        'title' => __( 'Introdução da Seção', 'iibpr-theme' ),
+        'panel' => 'iibpr_courses_panel',
+    ) );
+
+    $courses_intro_fields = array(
+        'iibpr_courses_label'    => array( 'label' => 'Label da seção', 'default' => 'Formação' ),
+        'iibpr_courses_title'    => array( 'label' => 'Título da seção', 'default' => 'Cursos em Destaque' ),
+        'iibpr_courses_subtitle' => array( 'label' => 'Subtítulo da seção', 'default' => 'Formações reconhecidas para profissionais que querem fazer a diferença.' ),
+    );
+    foreach ( $courses_intro_fields as $id => $args ) {
+        $wp_customize->add_setting( $id, array( 'default' => $args['default'], 'sanitize_callback' => 'wp_kses_post' ) );
+        $wp_customize->add_control( $id, array( 'label' => $args['label'], 'section' => 'iibpr_courses_intro', 'type' => 'text' ) );
+    }
 
     $course_defaults = array(
         1 => array(
@@ -302,21 +379,23 @@ add_action( 'customize_register', 'iibpr_customize_register' );
 /**
  * Helper para pegar setting do customizer com fallback para default.
  */
-function iibpr_get( $setting_id ) {
-    $defaults = array(
-        'iibpr_hero_tagline'    => 'Onde há movimento, há vida em relação!',
-        'iibpr_hero_title'      => 'Inscrições Abertas para Formação em Psicomotricidade',
-        'iibpr_hero_subtitle'   => 'Especialização de 420h em parceria com o IESB.',
-        'iibpr_hero_cta_label'  => 'Quero Garantir Minha Vaga',
-        'iibpr_hero_cta_url'    => '#inscricao',
-        'iibpr_hero_secondary_label' => 'Conheça os Cursos',
-        'iibpr_hero_secondary_url'   => '#cursos',
-        'iibpr_color_primary'   => '#5B21B6',
-        'iibpr_color_secondary' => '#0D9488',
-    );
-    $val = get_theme_mod( $setting_id );
-    if ( $val !== '' && $val !== false ) return $val;
-    return isset( $defaults[$setting_id] ) ? $defaults[$setting_id] : '';
+if ( ! function_exists( 'iibpr_get' ) ) {
+    function iibpr_get( $setting_id ) {
+        $defaults = array(
+            'iibpr_hero_tagline'    => 'Onde há movimento, há vida em relação!',
+            'iibpr_hero_title'      => 'Inscrições Abertas para Formação em Psicomotricidade',
+            'iibpr_hero_subtitle'   => 'Especialização de 420h em parceria com o IESB.',
+            'iibpr_hero_cta_label'  => 'Quero Garantir Minha Vaga',
+            'iibpr_hero_cta_url'    => '#inscricao',
+            'iibpr_hero_secondary_label' => 'Conheça os Cursos',
+            'iibpr_hero_secondary_url'   => '#cursos',
+            'iibpr_color_primary'   => '#5B21B6',
+            'iibpr_color_secondary' => '#0D9488',
+        );
+        $val = get_theme_mod( $setting_id );
+        if ( $val !== '' && $val !== false ) return $val;
+        return isset( $defaults[$setting_id] ) ? $defaults[$setting_id] : '';
+    }
 }
 
 

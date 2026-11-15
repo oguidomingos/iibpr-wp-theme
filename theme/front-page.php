@@ -107,14 +107,68 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     2. CURSOS EM DESTAQUE (Carrossel / Grid)
+	     2. PARA QUEM
+	     ===================================================== -->
+	<section id="para-quem" class="py-20 px-4 md:px-8 bg-white">
+		<div class="max-w-7xl mx-auto">
+
+			<div class="text-center mb-14">
+				<p class="section-label"><?php echo esc_html( iibpr_get( 'iibpr_audience_label', 'Para Quem' ) ); ?></p>
+				<h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mt-2">
+					<?php echo wp_kses_post( iibpr_get( 'iibpr_audience_title', 'Para quem é o IIBPR?' ) ); ?>
+				</h2>
+				<p class="max-w-3xl mx-auto text-gray-600 text-lg mt-4">
+					<?php echo wp_kses_post( iibpr_get( 'iibpr_audience_subtitle', 'Nossos cursos atendem profissionais e estudantes de diversas áreas.' ) ); ?>
+				</p>
+			</div>
+
+			<div class="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
+				<?php for ( $i = 1; $i <= 4; $i++ ) :
+					$card_title = iibpr_get( "iibpr_audience_card_{$i}_title" );
+					$card_text  = iibpr_get( "iibpr_audience_card_{$i}_text" );
+					$card_image = iibpr_get( "iibpr_audience_card_{$i}_image" );
+					if ( ! $card_title && ! $card_text && ! $card_image ) {
+						continue;
+					}
+				?>
+				<article class="audience-card overflow-hidden rounded-[1.75rem] border border-gray-100 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+					<div class="audience-card-media">
+						<?php if ( $card_image ) : ?>
+						<img src="<?php echo esc_url( $card_image ); ?>" alt="<?php echo esc_attr( $card_title ); ?>" class="audience-card-image">
+						<?php else : ?>
+						<div class="audience-card-image audience-card-image--placeholder" aria-hidden="true"></div>
+						<?php endif; ?>
+						<div class="audience-card-overlay"></div>
+						<?php if ( $card_title ) : ?>
+						<h3 class="audience-card-title"><?php echo esc_html( $card_title ); ?></h3>
+						<?php endif; ?>
+					</div>
+					<div class="p-6">
+						<p class="text-gray-600 text-base leading-8">
+							<?php echo wp_kses_post( $card_text ); ?>
+						</p>
+					</div>
+				</article>
+				<?php endfor; ?>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- =====================================================
+	     3. CURSOS EM DESTAQUE (Carrossel / Grid)
 	     ===================================================== -->
 	<section id="cursos" class="py-20 px-4 md:px-8 bg-gray-50">
 		<div class="max-w-6xl mx-auto">
 
 			<div class="text-center mb-14">
-				<p class="section-label">Formação</p>
-				<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2">Cursos em Destaque</h2>
+				<p class="section-label"><?php echo esc_html( iibpr_get( 'iibpr_courses_label', 'Formação' ) ); ?></p>
+				<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2">
+					<?php echo wp_kses_post( iibpr_get( 'iibpr_courses_title', 'Cursos em Destaque' ) ); ?>
+				</h2>
+				<p class="max-w-3xl mx-auto text-gray-600 text-lg mt-4">
+					<?php echo wp_kses_post( iibpr_get( 'iibpr_courses_subtitle', 'Formações reconhecidas para profissionais que querem fazer a diferença.' ) ); ?>
+				</p>
 			</div>
 
 			<!-- Carrossel mobile / grid desktop -->
@@ -140,12 +194,12 @@ get_header(); ?>
 					<div class="carousel-slide">
 						<article class="course-card h-full flex flex-col mx-2 md:mx-0">
 							<?php if ( $image ) : ?>
-							<div class="h-48 overflow-hidden">
+							<div class="course-card-media">
 								<img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $title ); ?>"
-								     class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+								     class="course-card-image">
 							</div>
 							<?php else : ?>
-							<div class="h-48 bg-gradient-to-br from-purple-500 via-indigo-500 to-teal-500 flex items-center justify-center">
+							<div class="course-card-media bg-gradient-to-br from-purple-500 via-indigo-500 to-teal-500 flex items-center justify-center">
 								<span class="text-5xl">📚</span>
 							</div>
 							<?php endif; ?>
@@ -211,7 +265,7 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     3. SOBRE O INSTITUTO / 3 PILARES
+	     4. SOBRE O INSTITUTO / 3 PILARES
 	     ===================================================== -->
 	<section id="sobre" class="py-20 px-4 md:px-8 bg-white">
 		<div class="max-w-6xl mx-auto">
@@ -247,7 +301,7 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     4. EVENTOS EM DESTAQUE
+	     5. EVENTOS EM DESTAQUE
 	     ===================================================== -->
 	<section id="eventos" class="py-20 px-4 md:px-8 bg-indigo-50">
 		<div class="max-w-6xl mx-auto">
@@ -311,7 +365,7 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     5. DEPOIMENTOS (Carrossel automático)
+	     6. DEPOIMENTOS (Carrossel automático)
 	     ===================================================== -->
 	<section id="depoimentos" class="py-20 px-4 md:px-8 bg-gray-50">
 		<div class="max-w-4xl mx-auto">
@@ -364,7 +418,7 @@ get_header(); ?>
 	</section>
 
 	<!-- =====================================================
-	     6. CTA FINAL / INSCRIÇÃO
+	     7. CTA FINAL / INSCRIÇÃO
 	     ===================================================== -->
 	<section id="inscricao" class="py-24 px-4 md:px-8 bg-gradient-to-br from-purple-700 via-indigo-700 to-teal-600 text-white text-center">
 		<div class="max-w-3xl mx-auto">

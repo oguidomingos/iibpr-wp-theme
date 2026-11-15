@@ -72,6 +72,56 @@
 	border-radius: 9999px;
 	display: inline-block;
 }
+.course-card-media {
+	min-height: 18rem;
+	max-height: 100vh;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+}
+.course-card-image {
+	width: 100%;
+	max-height: calc(100vh - 2rem);
+	object-fit: contain;
+}
+
+/* ---------- Audience Cards ---------- */
+.audience-card-media {
+	position: relative;
+	min-height: 16rem;
+	max-height: 100vh;
+	display: flex;
+	align-items: end;
+	overflow: hidden;
+	background: linear-gradient(135deg, rgba(91,33,182,0.16), rgba(13,148,136,0.18));
+}
+.audience-card-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.audience-card-image--placeholder {
+	min-height: 16rem;
+}
+.audience-card-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(13,148,136,0.08) 0%, rgba(101,163,13,0.38) 100%);
+}
+.audience-card-title {
+	position: absolute;
+	left: 1.25rem;
+	right: 1.25rem;
+	bottom: 1rem;
+	z-index: 1;
+	color: #fff;
+	font-size: 2rem;
+	font-weight: 800;
+	line-height: 1.1;
+	text-shadow: 0 2px 10px rgba(15, 23, 42, 0.25);
+}
 
 /* ---------- Carousel ---------- */
 .carousel-wrapper { position: relative; overflow: hidden; }
